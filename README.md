@@ -36,18 +36,18 @@ Directorios (Ejemplo):
         └── userRoutes.js
 ```
 
-* `controllers`:
-    
-Conjunto de funciones que manejaran lo que hace el servidor al recibir una petición, haciendo uso de los modelos importados   
-desde `models`, cada función o controlador será exportado para ser usado en `routes`.
+- `controllers`:
+
+Conjunto de funciones que manejaran lo que hace el servidor al recibir una petición, haciendo uso de los modelos importados desde `models`, cada función o controlador será exportado para ser usado en `routes`.
 
 <details>
     <summary>Ejemplo:</summary>
 
 ```js
 export async function getUsers() {
-    const users = await User.getAll()
-    res.json(users)
+  const users = await User.getAll();
+  res.json(users);
 }
 ```
+
 </details>
