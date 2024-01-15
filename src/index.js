@@ -10,9 +10,10 @@ import "./models/blog.js";
     console.log("\x1b[34m", "\n", "Connected to db!");
     app.listen(config.PORT, () =>
       console.log(
-        " Server up! ->",
+        " Server up!",
         "\x1b[1m",
         "\x1b[37m",
+        "\x1b[33m",
         "\x1b[4m",
         `http://localhost:${config.PORT}`,
         "\x1b[0m",
