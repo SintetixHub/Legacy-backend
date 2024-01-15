@@ -14,6 +14,16 @@
 
 ---
 
+## Para generar base de datos postgresql en local
+
+- Descargar e instalar postgres -> [Aquí](https://www.enterprisedb.com/downloads/postgres-postgresql-downloads)
+- La instalación de postgreSQL trae ademas pgADMIN gestor gráfico de base de datos.
+- Instalando PostgresQL se definen usuario, password, host y puerto a usarse cada vez que querramos conectarnos a postgres (pgAdmin y .env en el server)
+- Una vez abierto pgAdmin crear Nueva Conexión -> Object -> Register
+- Definir nombre de la database y repetir usuario, password, host y port.
+
+---
+
 ## Organización del Projecto
 
 ### Estructura
