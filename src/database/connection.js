@@ -9,7 +9,7 @@ const sequelize = new Sequelize(
     host: config.DB_HOSTHOST,
     dialect: "postgres",
     port: config.DB_PORT,
-    logging: false, //Si true despliega por consola las peticiones que se hagan a la db
+    logging: false, //If it is true, display on the console each query made to the database. (true by default)
   }
 );
 
