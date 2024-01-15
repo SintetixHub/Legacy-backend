@@ -1,9 +1,6 @@
 import Sequelize from "sequelize";
 import config from "../config/index.js";
 
-import "../models/user.js";
-import "../models/blog.js";
-
 const sequelize = new Sequelize(
   config.DATABASE,
   config.DB_USERNAME,

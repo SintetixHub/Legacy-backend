@@ -1,11 +1,11 @@
 import { DataTypes } from "sequelize";
-import sequelize from "../database";
+import sequelize from "../database/connection.js";
 
-export const UserSchema = sequelize.define("users", {
+const UserSchema = sequelize.define("users", {
   id: {
-    type: DataTypes.UUIDV4,
+    type: DataTypes.UUID,
     primaryKey: true,
-    defaultValue: DataTypes.UUIDV4,
+    defaultValue: DataTypes.UUID,
   },
   name: {
     type: DataTypes.STRING,
@@ -17,3 +17,26 @@ export const UserSchema = sequelize.define("users", {
     allowNull: false,
   },
 });
+
+//Methods with user
+const getByName = async (username) => {
+  try {
+    const user = await UserSchema.findOne({ where: { name: username } });
+    return user;
+  } catch (err) {
+    console.log(err);
+    return null;
+  }
+};
+
+const create = async (user) => {
+  try {
+    const userId = await UserSchema.create(user);
+    return userId;
+  } catch (err) {
+    console.log(err);
+    return null;
+  }
+};
+
+export default { getByName, create, UserSchema };
