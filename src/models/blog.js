@@ -45,7 +45,7 @@ const getById = async (blogId) => {
 const create = async (blog) => {
   try {
     const blogId = await BlogSchema.create(blog);
-    return blogid;
+    return blogId;
   } catch (err) {
     console.log(err);
     return null;

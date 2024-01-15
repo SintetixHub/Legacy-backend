@@ -35,15 +35,23 @@ Directorios (Ejemplo):
 ├── package-lock.json
 ├── README.md
 └── src
+    ├── index.js
     ├── controllers
-    │   └── userControllers.js
+    │   ├── user.js
+    │   └── blog.js
     ├── database
     │   └── connection.js
-    ├── index.js
+    ├── config
+    │   └── index.js
     ├── models
-    │   └── user.js
-    └── routes
-        └── userRoutes.js
+    │   ├── user.js
+    │   └── blog.js
+    ├── routes
+    │   ├── mainRouter.js
+    │   ├── user.js
+    │   └── blog.js
+    └── services
+        └── server.js
 ```
 
 - `controllers`:
@@ -54,17 +62,16 @@ Conjunto de funciones que manejaran lo que hace el servidor al recibir una petic
 <summary>Ejemplo:</summary>
 
 ```js
-import User from "../models/user.js" // Modelo importado
+import User from "../models/user.js"; // Modelo importado
 
 export async function getUsers() {
   const users = await User.getAll();
 
   if (users.isEmpty) {
-    res.send("Usuarios no encontrados!").status(404)
+    res.send("Usuarios no encontrados!").status(404);
   } else {
     res.json(users).status(200);
   }
-
 }
 ```
 
@@ -74,7 +81,7 @@ export async function getUsers() {
 
 - `database`:
 
-Contendrá los scripts necesarios para conectar el servidor a la base de datos, lo hará a través de variables de entorno (.env) osea que el desarrollador tiene la libertad de elegir de qué manera trabajará con la base de datos (en local o en la nube), solo se cambian las variables necesarias en el `.env`.  
+Contendrá los scripts necesarios para conectar el servidor a la base de datos, lo hará a través de variables de entorno (.env) osea que el desarrollador tiene la libertad de elegir de qué manera trabajará con la base de datos (en local o en la nube), solo se cambian las variables necesarias en el `.env`.
 
 Exportará un objeto (`database`) que será utilizado en `models` para hacer las queries o consultas.
 
@@ -82,15 +89,15 @@ Exportará un objeto (`database`) que será utilizado en `models` para hacer las
 <summary>Ejemplo:</summary>
 
 ```js
-import pg from "pg" // Driver de conexión con postgresql
+import pg from "pg"; // Driver de conexión con postgresql
 
 const database = new pg.Pool({
-    host: proccess.env.DB_HOST,
-    port: proccess.env.DB_PORT,
-    user: proccess.env.DB_USER,
-    password: proccess.env.DB_PASSWORD,
-    database: proccess.env.DB_NAME
-})
+  host: proccess.env.DB_HOST,
+  port: proccess.env.DB_PORT,
+  user: proccess.env.DB_USER,
+  password: proccess.env.DB_PASSWORD,
+  database: proccess.env.DB_NAME,
+});
 
-export default database
+export default database;
 ```
