@@ -16,8 +16,12 @@ const BlogSchema = sequelize.define("blogs", {
     type: DataTypes.STRING,
     allowNull: false,
   },
-  owner: {
+  author: {
     type: DataTypes.UUID,
+  },
+  likes: {
+    type: DataTypes.ARRAY(DataTypes.UUID),
+    default: [],
   },
 });
 
@@ -46,6 +50,17 @@ const create = async (blog) => {
   try {
     const blogId = await BlogSchema.create(blog);
     return blogId;
+  } catch (err) {
+    console.log(err);
+    return null;
+  }
+};
+
+const addLike = async (blogId, userId) => {
+  try {
+    const blog = await BlogSchema.findOne({ where: { id: blogId } });
+    console.log(blog);
+    if (!blog) return null;
   } catch (err) {
     console.log(err);
     return null;

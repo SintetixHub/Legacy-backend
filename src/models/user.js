@@ -1,5 +1,6 @@
 import { DataTypes } from "sequelize";
 import sequelize from "../database/connection.js";
+import { v4 as uuidv4 } from "uuid";
 
 const UserSchema = sequelize.define("users", {
   id: {
@@ -7,7 +8,7 @@ const UserSchema = sequelize.define("users", {
     primaryKey: true,
     defaultValue: DataTypes.UUID,
   },
-  name: {
+  username: {
     type: DataTypes.STRING,
     allowNull: false,
     unique: true,
@@ -16,13 +17,17 @@ const UserSchema = sequelize.define("users", {
     type: DataTypes.STRING,
     allowNull: false,
   },
+  email: {
+    type: DataTypes.STRING,
+    allowNull: false,
+    unique: true,
+  },
 });
 
 //Methods with user
 const getByName = async (username) => {
   try {
-    const user = await UserSchema.findOne({ where: { name: username } });
-    return user;
+    return await UserSchema.findOne({ where: { username: username } });
   } catch (err) {
     console.log(err);
     return null;
@@ -31,12 +36,13 @@ const getByName = async (username) => {
 
 const create = async (user) => {
   try {
+    user.id = uuidv4();
     const userId = await UserSchema.create(user);
     return userId;
   } catch (err) {
-    console.log(err);
-    return null;
+    // console.log(err);
+    return err;
   }
 };
 
-export default { getByName, create, UserSchema };
+export { getByName, create, UserSchema };
