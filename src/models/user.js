@@ -27,7 +27,9 @@ const UserSchema = sequelize.define("users", {
 //Methods with user
 const getByName = async (username) => {
   try {
-    return await UserSchema.findOne({ where: { username: username } });
+    return await UserSchema.findOne({
+      where: { username: username },
+    });
   } catch (err) {
     console.log(err);
     return null;
@@ -39,10 +41,10 @@ const create = async (user) => {
     user.id = uuidv4();
     const userId = await UserSchema.create(user);
     return userId;
-  } catch (err) {
+  } catch (error) {
     // console.log(err);
-    return err;
+    return { error };
   }
 };
 
-export { getByName, create, UserSchema };
+export const UserModel = { getByName, create, UserSchema };

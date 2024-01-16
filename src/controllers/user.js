@@ -1,18 +1,52 @@
-import { getByName, create } from "../models/user.js";
+import { UserModel } from "../models/user.js";
 import { validateData } from "../services/joi.js";
-import { hashPassword } from "../services/bcrypt.js";
+import { comparePasswords, hashPassword } from "../services/bcrypt.js";
+import { createToken } from "../services/jwt.js";
 
 const login = async (req, res) => {
   try {
-    const { error, value } = userSchema.validate(req.body);
+    const val = await validateData("login", req.body);
 
-    if (error) {
-      return res.status(404).json({ success: false, message: error.message });
+    if (val.error === "ValidationError") {
+      return res.status(400).json({ success: false, message: val.message });
     }
 
-    res.status(200).json({ success: true });
-    console.log("\n", error, "\n");
-    console.log("\n", value, "\n");
+    const user = await UserModel.getByName(val.username);
+
+    if (user === null) {
+      return res
+        .status(400)
+        .json({ success: false, message: "Incorrect data" });
+    }
+
+    const samePass = await comparePasswords(val.password, user.password);
+    if (!samePass) {
+      return res
+        .status(400)
+        .json({ success: false, message: "Incorrect data" });
+    }
+
+    const userNoPass = {
+      id: user.id,
+      username: user.username,
+      email: user.email,
+      createdAt: user.createdAt,
+    };
+
+    const token = createToken(userNoPass);
+
+    res.cookie("token", token, {
+      httpOnly: true,
+      // secure: true,
+      // maxAge: 3000000,
+      // signed: true,
+    });
+
+    res.status(200).json({
+      success: true,
+      message: "logued successfully",
+      data: userNoPass,
+    });
   } catch (err) {
     console.log(err);
     res.status(500).json({ success: false, message: "server error" });
@@ -21,30 +55,28 @@ const login = async (req, res) => {
 
 const signup = async (req, res) => {
   try {
-    const val = await validateData("user", req.body);
+    const val = await validateData("signup", req.body);
 
-    if (val.name === "ValidationError") {
+    if (val.error === "ValidationError") {
       return res.status(400).json({ success: false, message: val.message });
     }
-
-    // const newData = {
-    //     username:val.username,
-    //     email: val.email,
-    //     password:
-    // }
     val.password = await hashPassword(val.password);
 
-    const newUser = await create(val);
+    const resp = await UserModel.create(val);
 
-    if (newUser.name === "SequelizeUniqueConstraintError") {
+    if (resp.error.name === "SequelizeUniqueConstraintError") {
       return res
         .status(400)
-        .json({ success: false, message: newUser.parent.detail });
+        .json({ success: false, message: resp.error.parent.detail });
     }
 
     res
       .status(200)
-      .json({ success: true, message: "user created succesfully" });
+      .json({
+        success: true,
+        message: "user created succesfully",
+        userId: resp.id,
+      });
   } catch (error) {
     console.log(error);
     res.status(500).json({ success: false, message: "server error" });

@@ -1,6 +1,6 @@
 import Joi from "joi";
 
-const userSchema = Joi.object({
+const signupSchema = Joi.object({
   username: Joi.string().alphanum().min(3).max(30).required(),
   password: Joi.string()
     .pattern(new RegExp("^(?=.*[a-z])(?=.*[A-Z])(?=.*d).{8,30}$"))
@@ -13,8 +13,22 @@ const userSchema = Joi.object({
     .required(),
 });
 
+const loginSchema = Joi.object({
+  username: Joi.string().alphanum().min(3).max(30).required(),
+  password: Joi.string()
+    .pattern(new RegExp("^(?=.*[a-z])(?=.*[A-Z])(?=.*d).{8,30}$"))
+    .required(),
+});
+
+const createBlogSchema = Joi.object({
+  title: Joi.string().required(),
+  content: Joi.string().required(),
+});
+
 const schemaByName = {
-  user: userSchema,
+  signup: signupSchema,
+  login: loginSchema,
+  createBlog: createBlogSchema,
 };
 
 export const validateData = async (schemaName, data) => {
@@ -22,6 +36,6 @@ export const validateData = async (schemaName, data) => {
     const value = await schemaByName[schemaName].validateAsync(data);
     return value;
   } catch (err) {
-    return err;
+    return { err: err.name };
   }
 };

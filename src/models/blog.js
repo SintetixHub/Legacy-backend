@@ -1,5 +1,6 @@
-import { DataTypes } from "sequelize";
+import { DataTypes, Sequelize } from "sequelize";
 import sequelize from "../database/connection.js";
+import { v4 as uuidv4 } from "uuid";
 
 const BlogSchema = sequelize.define("blogs", {
   id: {
@@ -21,15 +22,15 @@ const BlogSchema = sequelize.define("blogs", {
   },
   likes: {
     type: DataTypes.ARRAY(DataTypes.UUID),
-    default: [],
+    defaultValue: [],
+    allowNull: false,
   },
 });
 
 //Methods with blog
 const getAll = async () => {
   try {
-    const blogs = await BlogSchema.findAll();
-    return blogs;
+    return await BlogSchema.findAll();
   } catch (err) {
     console.log(err);
     return null;
@@ -38,25 +39,23 @@ const getAll = async () => {
 
 const getById = async (blogId) => {
   try {
-    const blog = await BlogSchema.findOne({ where: { id: blogId } });
-    return blog;
-  } catch (err) {
-    console.log(err);
-    return null;
+    return await BlogSchema.findOne({ where: { id: blogId } });
+  } catch (error) {
+    return { error };
   }
 };
 
 const create = async (blog) => {
   try {
+    blog.id = uuidv4();
     const blogId = await BlogSchema.create(blog);
     return blogId;
-  } catch (err) {
-    console.log(err);
-    return null;
+  } catch (error) {
+    return { error };
   }
 };
 
-const addLike = async (blogId, userId) => {
+const addRemoveLike = async (blogId, userId) => {
   try {
     const blog = await BlogSchema.findOne({ where: { id: blogId } });
     console.log(blog);
@@ -67,4 +66,4 @@ const addLike = async (blogId, userId) => {
   }
 };
 
-export default { getAll, getById, create, BlogSchema };
+export const BlogModel = { getAll, getById, create, addRemoveLike, BlogSchema };
