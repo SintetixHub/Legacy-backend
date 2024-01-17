@@ -28,30 +28,17 @@
 
 ### Estructura
 
-Directorios (Ejemplo):
+Directorios:
 
 ```
-├── package.json
-├── package-lock.json
-├── README.md
 └── src
-    ├── index.js
-    ├── controllers
-    │   ├── user.js
-    │   └── blog.js
-    ├── database
-    │   └── connection.js
     ├── config
-    │   └── index.js
+    ├── controllers
+    ├── database
+    ├── middlewares
     ├── models
-    │   ├── user.js
-    │   └── blog.js
     ├── routes
-    │   ├── mainRouter.js
-    │   ├── user.js
-    │   └── blog.js
     └── services
-        └── server.js
 ```
 
 - `controllers`:
