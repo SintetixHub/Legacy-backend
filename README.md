@@ -120,3 +120,78 @@ const sequelize = new Sequelize(
 
 export default sequelize;
 ```
+
+</details>
+
+<br>
+
+- `middlewares/`:
+
+Contiene middlewares que serán usado entre los controladores de las rutas (antes o después de ejecutarse un controlador), por ejemplo: Autenticar un usuario.
+
+Hacen uso de servicios importados desde `services/`, como validación, jsonwebtoken, etc.
+
+<details>
+<summary>Ejemplo:</summary>
+
+```js
+import { verifyToken } from "../services/jwt.js";
+
+const authenticate = async (req, res, next) => {
+  try {
+    const { token } = req.cookies;
+    if (!token) {
+      return res.status(401).json({ success: false, message: "Unauthorized" });
+    }
+    const user = verifyToken(token);
+    if (!user) {
+      return res.json({ success: false, message: "Unauthorized" });
+    }
+
+    next();
+  } catch (err) {
+    console.log(err);
+    res.json({ success: false, message: "Unauthorized" });
+  }
+};
+
+export { authenticate };
+```
+
+</details>
+
+<br>
+
+- `models/`:
+
+Contiene los esquemas de las entidades de la base de datos (usuario, blog, comentario) al igual que los metodos para trabajar con ellos (`getByName`, `getAll`).
+
+Hace uso del objeto `sequelize` importandolo desde `database/` para hacer las consultas a la base de datos.
+
+Exporta un objeto con todos los metodos del modelo que será usado en el controlador del respectivo modelo.
+
+<details>
+<summary>Ejemplo:</summary>
+
+```js
+import sequelize from "../database/connection.js";
+
+const UserSchema = sequelize.define("users", {
+  id: {},
+  username: {},
+  password: {},
+  email: {},
+});
+
+const create = async (user) => {
+  try {
+    const userId = await UserSchema.create(user);
+    return userId;
+  } catch (error) {
+    console.log(err);
+    return { error };
+  }
+};
+
+export const UserModel = { create, UserSchema };
+```
