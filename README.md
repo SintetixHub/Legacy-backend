@@ -41,6 +41,30 @@ Directorios:
     └── services
 ```
 
+- `config`:
+
+Importará las variables de entorno por medio del módulo `dotenv` y las exportará en un único objeto `config`.
+
+<details>
+<summary>Ejemplo:</summary>
+
+```js
+import { config } from "dotenv";
+
+config();
+
+export default {
+  DB_HOST: process.env.DB_HOST,
+  DB_USERNAME: process.env.DB_USERNAME,
+  DB_PASSWORD: process.env.DB_PASSWORD || "",
+  // ...
+};
+```
+
+</details>
+
+<br>
+
 - `controllers`:
 
 Conjunto de funciones que manejaran lo que hace el servidor al recibir una petición, haciendo uso de los modelos importados desde `models`, cada función o controlador será exportado para ser usado en `routes`.
@@ -71,7 +95,7 @@ const createUser = async (req,res) => {
 
 - `database`:
 
-Contendrá los scripts necesarios para conectar el servidor a la base de datos, lo hará a través de variables de entorno (.env) osea que el desarrollador tiene la libertad de elegir de qué manera trabajará con la base de datos (en local o en la nube), solo se cambian las variables necesarias en el `.env`.
+Contendrá los scripts necesarios para conectar el servidor a la base de datos, lo hará a través de variables de entorno (.env) importadas desde `config`, osea que el desarrollador tiene la libertad de elegir de qué manera trabajará con la base de datos (en local o en la nube), solo se cambian las variables necesarias en el `.env`.
 
 Exportará un objeto (`sequelize`) que será utilizado en `models` para hacer las queries o consultas.
 
