@@ -62,16 +62,19 @@ Conjunto de funciones que manejaran lo que hace el servidor al recibir una petic
 <summary>Ejemplo:</summary>
 
 ```js
-import User from "../models/user.js"; // Modelo importado
+import { UserModel } from "../models/user.js";
 
-export async function getUsers() {
-  const users = await User.getAll();
+const createUser = async (req,res) => {
+    const { username, email } = req.body
 
-  if (users.isEmpty) {
-    res.send("Usuarios no encontrados!").status(404);
-  } else {
-    res.json(users).status(200);
-  }
+    try {
+        await UserModel.create(username,email)
+    } catch (err) {
+        console.error(err)
+        return res.status(404).json({ message: "Error!" })
+    }
+
+    return res.status(200).json({ message: "Creado!" })
 }
 ```
 
@@ -83,21 +86,26 @@ export async function getUsers() {
 
 Contendrá los scripts necesarios para conectar el servidor a la base de datos, lo hará a través de variables de entorno (.env) osea que el desarrollador tiene la libertad de elegir de qué manera trabajará con la base de datos (en local o en la nube), solo se cambian las variables necesarias en el `.env`.
 
-Exportará un objeto (`database`) que será utilizado en `models` para hacer las queries o consultas.
+Exportará un objeto (`sequelize`) que será utilizado en `models` para hacer las queries o consultas.
 
 <details>
 <summary>Ejemplo:</summary>
 
 ```js
-import pg from "pg"; // Driver de conexión con postgresql
+import Sequelize from "sequelize";
+import config from "../config/index.js";
 
-const database = new pg.Pool({
-  host: proccess.env.DB_HOST,
-  port: proccess.env.DB_PORT,
-  user: proccess.env.DB_USER,
-  password: proccess.env.DB_PASSWORD,
-  database: proccess.env.DB_NAME,
-});
+const sequelize = new Sequelize(
+  config.DATABASE,
+  config.DB_USERNAME,
+  config.DB_PASSWORD,
+  {
+    host: config.DB_HOSTHOST,
+    dialect: "postgres",
+    port: config.DB_PORT,
+    logging: false
+  }
+);
 
-export default database;
+export default sequelize;
 ```
