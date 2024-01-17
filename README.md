@@ -24,7 +24,7 @@
 
 ---
 
-## Organización del Projecto
+## Organización del Proyecto
 
 ### Estructura
 
