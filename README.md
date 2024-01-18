@@ -195,3 +195,64 @@ const create = async (user) => {
 
 export const UserModel = { create, UserSchema };
 ```
+
+</details>
+
+<br>
+
+- `routes/`:
+
+Contiene un conjunto de módulos que manejarán las rutas haciendo uso de los controladores importados de `controllers/`.
+
+Cada módulo tiene las rutas definidas de una entidad o módelo (rutas de usuario, blogs, etc), las cuales exportan para ser usadas, ya sea en un enrutador principal (`mainRouter.js`) o directamente en el script que ejecuta el servidor (`server.js`).
+
+<details>
+<summary>Ejemplo:</summary>
+
+```js
+import { Router } from "express";
+import { AuthController } from "../controllers/user.js";
+
+const router = Router();
+
+router.post("/login", AuthController.login);
+router.post("/signup", AuthController.signup);
+
+export default router;
+```
+
+</details>
+
+<br>
+
+- `services/`:
+
+Conjunto de servicios de autenticación, validación, ejecución del servidor, etc. Pueden ser importados desde cualquier parte del proyecto (donde se necesite).
+
+<details>
+<summary>Ejemplo:</summary>
+
+```js
+import jwt from "jsonwebtoken";
+import config from "../config/index.js";
+
+const createToken = (user) => {
+  try {
+    return jwt.sign(user, config.SECRET_KEY, {
+      expiresIn: config.EXPIRATION_TIME,
+    });
+  } catch (err) {
+    throw Error("Must set a SECRET_KET as env");
+  }
+};
+
+const verifyToken = (token) => {
+  try {
+    return jwt.verify(token, config.SECRET_KEY);
+  } catch (err) {
+    return null;
+  }
+};
+
+export { createToken, verifyToken };
+```
