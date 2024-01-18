@@ -1,6 +1,10 @@
 # Sintetix-backend
 
-## Para empezar a desarrollar ->
+- **[Desarrollo Local](#para-empezar-a-desarrollar)**
+- **[Instalar PostgreSQL](#para-generar-base-de-datos-postgresql-en-local)**
+- **[Organización del Proyecto](#organización-del-proyecto)**
+
+## Para empezar a desarrollar
 
 - clonar
 - npm install
