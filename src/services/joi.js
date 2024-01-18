@@ -23,6 +23,7 @@ const loginSchema = Joi.object({
 const createBlogSchema = Joi.object({
   title: Joi.string().required(),
   content: Joi.string().required(),
+  urlImage: Joi.string().required(),
 });
 
 const schemaByName = {
@@ -36,6 +37,6 @@ export const validateData = async (schemaName, data) => {
     const value = await schemaByName[schemaName].validateAsync(data);
     return value;
   } catch (err) {
-    return { err: err.name };
+    return { err: err.name, message: err.message };
   }
 };

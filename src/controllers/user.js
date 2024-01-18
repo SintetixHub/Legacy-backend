@@ -64,19 +64,17 @@ const signup = async (req, res) => {
 
     const resp = await UserModel.create(val);
 
-    if (resp.error.name === "SequelizeUniqueConstraintError") {
+    if (resp.error?.name === "SequelizeUniqueConstraintError") {
       return res
         .status(400)
         .json({ success: false, message: resp.error.parent.detail });
     }
 
-    res
-      .status(200)
-      .json({
-        success: true,
-        message: "user created succesfully",
-        userId: resp.id,
-      });
+    res.status(200).json({
+      success: true,
+      message: "user created succesfully",
+      userId: resp.id,
+    });
   } catch (error) {
     console.log(error);
     res.status(500).json({ success: false, message: "server error" });

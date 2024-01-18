@@ -1,4 +1,4 @@
-import { DataTypes, Sequelize } from "sequelize";
+import { DataTypes } from "sequelize";
 import sequelize from "../database/connection.js";
 import { v4 as uuidv4 } from "uuid";
 
@@ -20,10 +20,17 @@ const BlogSchema = sequelize.define("blogs", {
   author: {
     type: DataTypes.UUID,
   },
+  urlImage: {
+    type: DataTypes.STRING,
+  },
   likes: {
     type: DataTypes.ARRAY(DataTypes.UUID),
     defaultValue: [],
     allowNull: false,
+  },
+  score: {
+    type: DataTypes.INTEGER,
+    defaultValue: 7,
   },
 });
 
