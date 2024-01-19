@@ -5,7 +5,8 @@
   "main": "index.js",
   "scripts": {
     "build": "tsc",
-    "dev": "nodemon src/index.js"
+    "dev": "nodemon src/index.js",
+    "dev:render":"nodemon src/index --renderdb"
   },
   "type": "module",
   "keywords": [],

@@ -2,6 +2,12 @@ import { config } from "dotenv";
 
 config();
 
+if (process.argv.includes("--renderdb")) {
+  console.log("Using db at render");
+} else {
+  console.log("Using db at local");
+}
+
 export default {
   DB_HOST: process.env.DB_HOST,
   DB_USERNAME: process.env.DB_USERNAME,
@@ -11,4 +17,5 @@ export default {
   PORT: process.env.PORT || 8080,
   SECRET_KEY: process.env.SECRET_KEY,
   EXPIRATION_TIME: process.env.EXPIRATION_TIME,
+  DB_RENDER: process.env.DB_RENDER || "",
 };

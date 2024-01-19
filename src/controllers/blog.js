@@ -43,7 +43,7 @@ const getById = async (req, res) => {
 const create = async (req, res) => {
   try {
     const val = await validateData("createBlog", req.body);
-    console.log(val);
+
     if (val.err === "ValidationError") {
       return res.status(400).json({ success: false, message: val.message });
     }
@@ -58,7 +58,7 @@ const create = async (req, res) => {
     };
 
     const resp = await BlogModel.create(newBlog);
-    console.log(resp);
+
     if (resp.error?.name === "SequelizeUniqueConstraintError") {
       return res
         .status(400)
