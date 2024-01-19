@@ -5,6 +5,7 @@
 - **[Organización del Proyecto](#organización-del-proyecto)**
     - **[Tecnologías](#tecnologías)**
     - **[Estructura](#estructura)**
+    - **[Flujo de Trabajo](#flujo-de-trabajo)**
 
 ## Para empezar a desarrollar
 
@@ -33,6 +34,7 @@
 ## Organización del Proyecto
 
 ### Tecnologías
+---
 
 - **`express.js`**: Servidor y API
 - **`sequelize`**: ORM para conectar con la base de datos
@@ -42,6 +44,7 @@
 - **`PostgreSQL`**: Base de datos
 
 ### Estructura
+---
 
 Directorios:
 
@@ -273,4 +276,18 @@ export { createToken, verifyToken };
 ```
 
 </details>
+
+### Flujo de Trabajo
+---
+
+El flujo de trabajo utilizado está basado en **ramas**. Se crea una rama dependiendo de los cambios que se realizarán (**nueva característica** o **solución de bug**) con un nombre corto y descriptivo. Una vez creada la rama (a partir de **main**) se hacen los commits necesarios y al finalizar el trabajo se hace un **merge** hacia la rama **main**.
+
+#### **Ramas de features** (`feature/[nombre_de_la_feature]`):
+    
+Nueva característica/cambio a incorporar en el proyecto. E.j: `feature/comments_endpoint`
+
+
+#### **Ramas de bugs** (`bugfix/[nombre_del_bug]`):
+
+Solución a un bug existente en el proyecto. E.j: `bugfix/users_bad_response`
 
