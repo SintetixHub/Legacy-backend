@@ -3,6 +3,8 @@
 - **[Desarrollo Local](#para-empezar-a-desarrollar)**
 - **[Instalar PostgreSQL](#para-generar-base-de-datos-postgresql-en-local)**
 - **[Organización del Proyecto](#organización-del-proyecto)**
+    - **[Tecnologías](#tecnologías)**
+    - **[Estructura](#estructura)**
 
 ## Para empezar a desarrollar
 
@@ -29,6 +31,15 @@
 ---
 
 ## Organización del Proyecto
+
+### Tecnologías
+
+- **`express.js`**: Servidor y API
+- **`sequelize`**: ORM para conectar con la base de datos
+- **`jwt`**: Tokens para autenticar usuarios
+- **`joi`**: Validación
+- **`bcrypt`**: Encriptación
+- **`PostgreSQL`**: Base de datos
 
 ### Estructura
 
@@ -260,3 +271,6 @@ const verifyToken = (token) => {
 
 export { createToken, verifyToken };
 ```
+
+</details>
+
