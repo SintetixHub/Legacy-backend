@@ -4,7 +4,7 @@ import config from "../config/index.js";
 let sequelize;
 
 if (process.argv.includes("--renderdb")) {
-  sequelize = new Sequelize(config.DB_RENDER);
+  sequelize = new Sequelize(config.DB_RENDER, { logging: false });
 } else {
   sequelize = new Sequelize(
     config.DATABASE,

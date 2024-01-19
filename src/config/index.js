@@ -2,12 +2,6 @@ import { config } from "dotenv";
 
 config();
 
-if (process.argv.includes("--renderdb")) {
-  console.log("Using db at render");
-} else {
-  console.log("Using db at local");
-}
-
 export default {
   DB_HOST: process.env.DB_HOST,
   DB_USERNAME: process.env.DB_USERNAME,

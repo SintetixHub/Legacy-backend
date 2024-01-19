@@ -11,7 +11,9 @@ import "./models/blog.js";
     app.listen(config.PORT, () =>
       console.log(
         "\n",
-        "Connected to db and",
+        `Connected to db at ${
+          process.argv.includes("--renderdb") ? "RENDER" : "LOCAL"
+        } and `,
         "server up!",
         "\x1b[1m",
         `http://localhost:${config.PORT}`,
