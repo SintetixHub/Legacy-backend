@@ -56,7 +56,7 @@ const login = async (req, res) => {
 const signup = async (req, res) => {
   try {
     const val = await validateData("signup", req.body);
-
+    console.log(val);
     if (val.error === "ValidationError") {
       return res.status(400).json({ success: false, message: val.message });
     }
